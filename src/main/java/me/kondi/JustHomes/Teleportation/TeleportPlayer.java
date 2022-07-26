@@ -36,17 +36,17 @@ public class TeleportPlayer {
             public void run() {
                 if (tpCooldown.get(uuid) > 0) {
                     tpCooldown.put(uuid, tpCooldown.get(uuid) - 1);
-                    if (tpCooldown.get(uuid) == 0) {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Messages.get("ActionBarNameWhileTeleporting")));
-                        p.teleport(loc);
-                        p.sendMessage(prefix + PlaceholderAPI.setPlaceholders(p, Messages.get("SuccesfullTeleportation")));
-                        tpCooldownTask.get(uuid).cancel();
-                        tpCooldown.remove(uuid);
-                        tpCooldownTask.remove(uuid);
-                    }
-                    else{
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(tpCooldown.get(uuid).toString()));
-                    }
+                }
+                if (tpCooldown.get(uuid) == 0) {
+                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Messages.get("ActionBarNameWhileTeleporting")));
+                    p.teleport(loc);
+                    p.sendMessage(prefix + PlaceholderAPI.setPlaceholders(p, Messages.get("SuccesfullTeleportation")));
+                    tpCooldownTask.get(uuid).cancel();
+                    tpCooldown.remove(uuid);
+                    tpCooldownTask.remove(uuid);
+                }
+                else{
+                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(tpCooldown.get(uuid).toString()));
                 }
             }
 
