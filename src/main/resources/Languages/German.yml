@@ -1,0 +1,30 @@
+#Just Homes
+#German Language File
+
+#List
+UserHasNoHomes: "&cDu hast keine Homes!"
+ListHomesTitle: "&e&l______________ &r&fDeine Homes &e&l______________"
+ListColorOfIndexNumber: "&7"
+ListColorOfIndexName: "&6"
+
+#SetHome
+SetOnlyOnGroundException: "&cDu musst auf dem Boden stehen!"
+CorruptedHome: "&cDein Home ist nicht lesbar!"
+SpecifyHomeNameException: "&cDu musst einen Home-Namen angeben!"
+CreatedHome: "&6%justhomes_homename%&7 wurde erfolgreich erstellt."
+TooMuchHomesException: "&cDu hast zuviele Homes! Entferne erst eins davon!"
+UnknownHomeName: "&cUnbekannter Home-Name!"
+EditedHome: "&6%justhomes_homename%&7 wurde bearbeitet."
+
+#Teleportation
+Teleporting: "&7Du wirst teleportiert in &6%justhomes_teleportationtime% &7Sekunden. &cNicht bewegen!"
+SuccessfulTeleportation: "&7Du wurdest erfolgreich teleportiert nach &6%justhomes_homename%."
+ActionBarNameWhileTeleporting: "&aTeleportiert..."
+TeleportationCancelled: "&cTeleportierung Abgebrochen!"
+UnavailableHome: "&cDieses Home ist nicht mehr verfügbar!"
+
+#DeleteHome
+DeletedHome: "&6%justhomes_homename%&7 wurde erfolgreich gelöscht."
+
+#Other
+NotHumanException: "Du bist kein Spieler!"
