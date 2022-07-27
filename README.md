@@ -20,32 +20,33 @@ To use JustHomes you have to download [PlaceholderAPI](https://www.spigotmc.org/
 
 ## Langugages
 Contribute to make the list longer :wink:
-|Language|STATUS|
-|--------|------|
-|English|:heavy_check_mark:|
-|Polish|:heavy_check_mark:|
+|Language|      STATUS      |
+|--------|------------------|
+|English |:heavy_check_mark:|
+|Polish  |:heavy_check_mark:|
+|German  |:heavy_check_mark:|
 
 ## Commands
 
-
-| Command             |Alias| Description|
-| --------------------|-----|------------|
-|sethome |sh|You can create homes with it|
-|home|h|Teleports you to your home|
-|listhome|lh|Lists all your homes|
-|delhome|dh|Deletes your home|
-|reloadlanguage|-|Reloads languages|
+   
+| Command             |Alias|        Description         |
+| --------------------|-----|----------------------------|
+|sethome              |sh   |You can create homes with it|
+|home                 |h    |Teleports you to your home  |
+|listhome             |lh   |Lists all your homes        |
+|delhome              |dh   |Deletes your home           |
+|reloadlanguage       |-    |Reloads languages           |
 
 ## Permissions
 
 
-| Permission               | Player            |
-|--------------------------|-------------------|
-| justhomes.sethome        | Default           |
-| justhomes.home           | Default           |
-| justhomes.listhome       | Default           |
-| justhomes.delhome        | Default           |
-| justhomes.reloadlanguage | OP                |
-| justhomes.maxhomes       | Value  (Default: 5) |
- | justhomes.teleportationdelay| Value (Default: 5)|
+| Permission               | Player               |
+|--------------------------|----------------------|
+| justhomes.sethome        | Default              |
+| justhomes.home           | Default              |
+| justhomes.listhome       | Default              |
+| justhomes.delhome        | Default              |
+| justhomes.reloadlanguage | OP                   |
+| justhomes.maxhomes       | Value  (Default: 5)  |
+| justhomes.teleportationdelay| Value (Default: 5)|
 
