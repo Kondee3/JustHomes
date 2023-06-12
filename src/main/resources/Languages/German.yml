@@ -22,9 +22,13 @@ SuccessfulTeleportation: "&7Du wurdest erfolgreich teleportiert nach &6%justhome
 ActionBarNameWhileTeleporting: "&aTeleportiert..."
 TeleportationCancelled: "&cTeleportierung Abgebrochen!"
 UnavailableHome: "&cDieses Home ist nicht mehr verfügbar!"
+PendingAnotherTeleportation: "&cWarten auf eine weitere Teleportation!"
+TeleportationOnCooldown: "&cTeleportation ist auf Abklingzeit. Sie müssen &6%justhomes_cooldown%&c Sekunden warten!"
 
 #DeleteHome
 DeletedHome: "&6%justhomes_homename%&7 wurde erfolgreich gelöscht."
 
 #Other
 NotHumanException: "Du bist kein Spieler!"
+ReloadLaguageFile: "Sprachdatei neu geladen!"
+SavingAllPlayersData: "Speichern Sie alle Spielerdaten!"

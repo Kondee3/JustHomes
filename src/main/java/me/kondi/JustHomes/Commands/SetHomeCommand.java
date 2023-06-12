@@ -11,7 +11,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 public class SetHomeCommand {
@@ -34,6 +33,12 @@ public class SetHomeCommand {
     public SetHomeCommand() {
     }
 
+
+    /**
+     * Creates player's home.
+     * @param p Player whose home will be created.
+     * @param args Arguments including name of player's home.
+     */
     public void set(Player p, String[] args) {
 
         String uuid = p.getUniqueId().toString();
@@ -52,7 +57,7 @@ public class SetHomeCommand {
             return;
         }
 
-        List<Home> playerHomes = playerData.listOfHomes(uuid);
+        List<Home> playerHomes = playerData.getListOfHomes(uuid);
 
         if (playerHomes.size() == 0) {
             saveLoc(p, args[0]);

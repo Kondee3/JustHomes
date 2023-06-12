@@ -8,8 +8,6 @@ import me.kondi.JustHomes.JustHomes;
 import me.kondi.JustHomes.Utils.Messages;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-
 public class DeleteHomeCommand {
 
     private final String prefix;
@@ -22,6 +20,11 @@ public class DeleteHomeCommand {
         this.playerData = plugin.playerData;
     }
 
+    /**
+     * Deletes player's home.
+     * @param p Player whose home will be deleted.
+     * @param args Arguments including name of player's home.
+     */
 
     public void delete(Player p, String[] args) {
         String uuid = p.getUniqueId().toString();
@@ -30,7 +33,7 @@ public class DeleteHomeCommand {
             p.sendMessage(prefix + Messages.get("SpecifyHomeNameException"));
             return;
         }
-        if (playerData.countPlayerHomes(uuid) == 0) {
+        if (playerData.getHomesAmount(uuid) == 0) {
             p.sendMessage(prefix + Messages.get("UserHasNoHomes"));
             return;
         }

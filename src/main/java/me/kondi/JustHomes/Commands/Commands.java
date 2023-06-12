@@ -4,8 +4,6 @@ package me.kondi.JustHomes.Commands;
 import me.kondi.JustHomes.Home.Home;
 import me.kondi.JustHomes.JustHomes;
 import me.kondi.JustHomes.Utils.Messages;
-import org.bukkit.Material;
-import org.bukkit.block.data.type.Light;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,9 +12,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 public class Commands implements CommandExecutor, TabCompleter {
     private final JustHomes plugin;
@@ -28,12 +24,22 @@ public class Commands implements CommandExecutor, TabCompleter {
 
     }
 
+
+    /**
+     *
+     * @param sender Source of the command
+     * @param cmd Command which was executed
+     * @param label Alias of the command which was used
+     * @param args Passed command arguments
+     * @return
+     */
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String arg2, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
 
         if (cmd.getName().equalsIgnoreCase("reloadlanguage")) {
             if (sender.isOp() || sender.hasPermission("justhomes.loadlanguage")) {
                 Messages.reload();
+                sender.sendMessage(prefix + Messages.get("ReloadLaguageFile"));
                 return true;
             }
         }
@@ -67,6 +73,17 @@ public class Commands implements CommandExecutor, TabCompleter {
     }
 
 
+    /**
+     *
+     * @param sender Source of the command.  For players tab-completing a
+     *     command inside a command block, this will be the player, not
+     *     the command block.
+     * @param cmd Command which was executed
+     * @param arg2 Alias of the command which was used
+     * @param args The arguments passed to the command, including final
+     *     partial argument to be completed
+     * @return
+     */
     @Override
     public ArrayList<String> onTabComplete(@NotNull CommandSender sender, Command cmd, @NotNull String arg2, String[] args) {
         if (cmd.getName().equalsIgnoreCase("delhome") || cmd.getName().equalsIgnoreCase("home")) {
@@ -79,12 +96,12 @@ public class Commands implements CommandExecutor, TabCompleter {
                     return homes;
                 }
                 String uuid = p.getUniqueId().toString();
-                if (plugin.playerData.countPlayerHomes(uuid) == 0) {
+                if (plugin.playerData.getHomesAmount(uuid) == 0) {
                     return homes;
                 }
 
 
-                List<Home> keys = plugin.playerData.listOfHomes(uuid);
+                List<Home> keys = plugin.playerData.getListOfHomes(uuid);
                 int homesMaxAmount = plugin.permissionChecker.checkHomesMaxAmount(p);
                 if (keys.size() < homesMaxAmount) homesMaxAmount = keys.size();
                 for (int i = 0; i < homesMaxAmount; i++) {

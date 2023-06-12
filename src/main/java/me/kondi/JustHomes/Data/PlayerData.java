@@ -14,6 +14,10 @@ public class PlayerData {
     private final String prefix;
     private final Database db;
 
+    /**
+     * Used to bridge the Command layer and Database layer.
+     * @param plugin JustHomes object.
+     */
     public PlayerData(JustHomes plugin) {
         this.plugin = plugin;
         this.console = plugin.getServer().getConsoleSender();
@@ -21,7 +25,12 @@ public class PlayerData {
         this.db = plugin.db;
     }
 
-    public int countPlayerHomes(String uuid) {
+    /**
+     * Used to get amount of player's saved homes.
+     * @param uuid Player's uuid.
+     * @return Amount of player's saved homes.
+     */
+    public int getHomesAmount(String uuid) {
         try {
             return db.getHomesAmount(uuid);
         } catch (SQLException ex) {
@@ -30,10 +39,22 @@ public class PlayerData {
         return 0;
     }
 
-    public List<Home> listOfHomes(String uuid) {
+
+    /**
+     * Used to get list of player's saved homes.
+     * @param uuid Player's uuid.
+     * @return List of player's saved homes.
+     */
+    public List<Home> getListOfHomes(String uuid) {
         return db.getCachedListOfHomes(uuid);
     }
 
+    /**
+     * Used to get home object.
+     * @param uuid Player's uuid.
+     * @param homeName Home name.
+     * @return Home object.
+     */
     public Home getHome(String uuid, String homeName){
         try {
             return  db.getHome(uuid, homeName);
@@ -44,8 +65,20 @@ public class PlayerData {
         return null;
     }
 
-    public void saveHome(String uuid) {
+    /**
+     * Used to save homes.
+     * @param uuid Player's uuid.
+     */
+    public void saveHomes(String uuid) {
         db.saveHomes(uuid);
+    }
+
+    /**
+     * Used to save cooldown between teleportation.
+     * @param uuid Player's uuid.
+     */
+    public void saveCooldown(String uuid) {
+        db.saveCooldown(uuid);
     }
 
     public void deleteHome(Home home) {
@@ -56,14 +89,29 @@ public class PlayerData {
         }
     }
 
+    /**
+     * Used to load player data on join.
+     * @param uuid Player's uuid.
+     */
     public void loadPlayerData(String uuid) {
+        db.loadHomesData(uuid);
         db.loadPlayerData(uuid);
     }
 
+
+    /**
+     * Used to add home to the cached list of homes.
+     * @param home Player's home object.
+     */
     public void addHome(Home home) {
         db.addHomeToCache(home);
     }
 
+    /**
+     * Used to replace home with new modified home.
+     * @param home Player's home object.
+     * @param newHome Player's new home object.
+     */
     public void replaceHome(Home home, Home newHome) {
         db.replaceHomeInCache(home, newHome);
     }

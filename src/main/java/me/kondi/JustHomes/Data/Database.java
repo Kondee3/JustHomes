@@ -2,9 +2,9 @@ package me.kondi.JustHomes.Data;
 
 import me.kondi.JustHomes.Home.Home;
 import me.kondi.JustHomes.JustHomes;
+import me.kondi.JustHomes.Teleportation.TeleportPlayer;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.*;
 import java.util.*;
@@ -17,7 +17,6 @@ public class Database {
 
     //Database objects and connection data
     private Connection con;
-    private Statement st;
     private String host;
     private String database;
     private String username;
@@ -50,9 +49,8 @@ public class Database {
                 con = DriverManager.getConnection("jdbc:sqlite:" + plugin.getDataFolder() + "/playerdata/homeData.db");
             }
 
-
-            st = con.createStatement();
-            createTable();
+            createHomeTable();
+            createPlayerDataTable();
         } catch (Exception ex) {
 
             console.sendMessage(prefix + "ERROR: " + ex);
@@ -60,6 +58,11 @@ public class Database {
         }
 
     }
+
+    /**
+     * Used to save all player homes on PlayerQuitEvent.
+     * @param uuid Player's uuid.
+     */
 
     public void saveHomes(String uuid){
         cachedHomes.get(uuid).forEach(home -> {
@@ -70,6 +73,10 @@ public class Database {
             }
         });
     }
+
+    /**
+     * Used to save all homes of all players when the server closes.
+     */
     public void saveAllHomes(){
         cachedHomes.entrySet().forEach(entry ->{
             for(Home home : entry.getValue()) {
@@ -83,7 +90,65 @@ public class Database {
 
     }
 
-    //Save home
+    /**
+     * Used to save all player teleportation cooldown.
+     */
+    public void saveTeleportationCooldowns(){
+        TeleportPlayer.tpCooldownBetweenTeleportation.entrySet().forEach(delayEntry -> {
+            if(delayEntry.getValue()>System.currentTimeMillis())
+                saveCooldown(delayEntry.getKey());
+        });
+    }
+
+    /**
+     * Used to know if the cooldown existed.
+     * @param uuid Player's uuid
+     * @return Returns true if the cooldown entry in database exists.
+     */
+    private boolean cooldownExistence(String uuid){
+
+        try {
+            String exist = "SELECT COOLDOWN FROM PLAYERDATA WHERE UUID = ?";
+            PreparedStatement preparedStmt = con.prepareStatement(exist);
+            preparedStmt.setString(1, uuid);
+            return preparedStmt.executeQuery().next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    /**
+     * Used to save the player teleportation cooldown, when value is larger than current time in ms.
+     * Used when one player leaves the server.
+     * @param uuid Player uuid.
+     */
+    public void saveCooldown(String uuid) {
+        try {
+            if(!cooldownExistence(uuid)){
+                String query = "INSERT INTO PLAYERDATA (UUID, COOLDOWN)" + "VALUES(?, ?)";
+                PreparedStatement preparedStmtInsert = con.prepareStatement(query);
+                preparedStmtInsert.setString(1, uuid);
+                preparedStmtInsert.setLong(2, TeleportPlayer.tpCooldownBetweenTeleportation.get(uuid));
+                preparedStmtInsert.execute();
+            }else{
+                String query = "UPDATE PLAYERDATA SET COOLDOWN=? WHERE UUID = ?";
+                PreparedStatement preparedStmtInsert = con.prepareStatement(query);
+                preparedStmtInsert.setLong(1, TeleportPlayer.tpCooldownBetweenTeleportation.get(uuid));
+                preparedStmtInsert.setString(2, uuid);
+                preparedStmtInsert.execute();
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+        /**
+     * Used to prepare queries and execute queries to save home object in database.
+     * @param home Player's home object.
+     * @throws SQLException
+     */
     public void setHome(Home home) throws SQLException {
         try {
             String exist = "SELECT * FROM HOMES WHERE UUID = ? AND HomeName = ?";
@@ -128,17 +193,32 @@ public class Database {
 
     }
 
-    //Get homes amount
+    /**
+     * Used to get player's saved homes amount.
+     * @param uuid Player's uuid.
+     * @return Amount of homes.
+     * @throws SQLException
+     */
     public int getHomesAmount(String uuid) throws SQLException {
         return cachedHomes.get(uuid).size();
     }
 
-    //Get cached home list
+    /**
+     * Used to get List of cached player's homes.
+     * @param uuid Player's uuid.
+     * @return List of cached homes.
+     */
     public List<Home> getCachedListOfHomes(String uuid) {
         return cachedHomes.get(uuid);
     }
 
-    //Get Home
+    /**
+     * Used to get player's home.
+     * @param uuid Player's uuid.
+     * @param homeName Player's home name.
+     * @return Home object from cached home list.
+     * @throws SQLException
+     */
     public Home getHome(String uuid, String homeName) throws SQLException {
         Optional<Home> home = cachedHomes.get(uuid).stream().filter(h -> h.getHomeName().equalsIgnoreCase(homeName)).findFirst();
 
@@ -146,7 +226,11 @@ public class Database {
     }
 
 
-    //Delete Home
+    /**
+     * Used to delete player's home.
+     * @param home Player's home to be deleted.
+     * @throws SQLException
+     */
     public void deleteHome(Home home) throws SQLException {
         try {
             cachedHomes.get(home.getOwner()).remove(home);
@@ -164,15 +248,16 @@ public class Database {
     }
 
 
-
-    //Create table
-    public void createTable() {
+    /**
+     * Query to create a Homes table.
+     */
+    public void createHomeTable() {
         try {
             DatabaseMetaData meta = con.getMetaData();
             ResultSet tables = meta.getTables(null, null, "HOMES", null);
 
             while (!tables.next()) {
-                String playerDataTable = "CREATE TABLE HOMES" +
+                String homeDataTable = "CREATE TABLE HOMES" +
                         "(UUID VARCHAR(255) NOT NULL, " +
                         "HomeName VARCHAR(255) NOT NULL, " +
                         "WorldName VARCHAR(255), " +
@@ -182,9 +267,8 @@ public class Database {
                         "Pitch FLOAT, " +
                         "Yaw FLOAT," +
                         "PRIMARY KEY (UUID, HomeName))";
-
-                st.executeUpdate(playerDataTable);
-                console.sendMessage(prefix + "Table [HOMES] Created!");
+                PreparedStatement preparedStatement = con.prepareStatement(homeDataTable);
+                preparedStatement.execute();
                 break;
             }
 
@@ -195,7 +279,34 @@ public class Database {
         }
     }
 
-    //Stops database connection and schedulers
+    /**
+     * Query to create a Player Data table.
+     */
+    public void createPlayerDataTable() {
+        try {
+            DatabaseMetaData meta = con.getMetaData();
+            ResultSet tables = meta.getTables(null, null, "PLAYERDATA", null);
+
+            while (!tables.next()) {
+                String playerDataTable = "CREATE TABLE PLAYERDATA" +
+                        "(UUID VARCHAR(255) NOT NULL, " +
+                        "COOLDOWN INTEGER," +
+                        "PRIMARY KEY (UUID))";
+                PreparedStatement preparedStatement = con.prepareStatement(playerDataTable);
+                preparedStatement.execute();
+                break;
+            }
+
+
+        } catch (Exception ex) {
+
+            console.sendMessage(prefix + "ERROR: " + ex);
+        }
+    }
+
+    /**
+     * Stops database connection.
+     */
 
     public void stopDatabaseConnection() {
         try {
@@ -205,8 +316,12 @@ public class Database {
         }
     }
 
+    /**
+     * Loads user data to cached list.
+     * @param uuid Player's uuid.
+     */
 
-    public void loadPlayerData(String uuid) {
+    public void loadHomesData(String uuid) {
         try {
 
 
@@ -237,13 +352,42 @@ public class Database {
         }
 
     }
+    public void loadPlayerData(String uuid) {
+        try {
 
+
+            String query = "SELECT COOLDOWN FROM PLAYERDATA WHERE UUID=?";
+            PreparedStatement preparedStmt = con.prepareStatement(query);
+            preparedStmt.setString(1, uuid);
+            ResultSet results = preparedStmt.executeQuery();
+            while (results.next()) {
+                long cooldown = results.getLong("COOLDOWN");
+                if(cooldown>System.currentTimeMillis())
+                    TeleportPlayer.tpCooldownBetweenTeleportation.put(uuid, results.getLong("COOLDOWN"));
+            }
+
+        } catch (Exception ex) {
+
+            console.sendMessage(prefix + "ERROR: " + ex);
+
+        }
+    }
+
+    /**
+     * Adds home to cache list.
+     * @param home Player's home.
+     */
     public void addHomeToCache(Home home) {
 
         cachedHomes.get(home.getOwner()).add(home);
 
     }
 
+    /**
+     * Used to edit home location.
+     * @param home Player's home
+     * @param newHome Player's new home.
+     */
     public void replaceHomeInCache(Home home, Home newHome){
         List<Home> homeList = cachedHomes.get(home.getOwner());
         homeList.set(homeList.indexOf(home), newHome);

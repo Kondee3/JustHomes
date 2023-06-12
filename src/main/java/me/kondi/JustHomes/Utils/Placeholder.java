@@ -2,7 +2,7 @@ package me.kondi.JustHomes.Utils;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.kondi.JustHomes.Home.HomeNames;
-import me.kondi.JustHomes.JustHomes;
+import me.kondi.JustHomes.Permissions.PermissionChecker;
 import me.kondi.JustHomes.Teleportation.TeleportPlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +22,7 @@ public class Placeholder extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getVersion() {
-        return "1.19.0.2";
+        return "1.20";
     }
 
     @Override
@@ -45,9 +45,12 @@ public class Placeholder extends PlaceholderExpansion {
             return HomeNames.getHomeName(p.getUniqueId().toString());
         }
         if(params.equals("teleportationtime")){
-            return TeleportPlayer.tpCooldown.get(p.getUniqueId().toString()).toString();
+            return TeleportPlayer.tpDelay.get(p.getUniqueId().toString()).toString();
         }
-
+        if(params.equals("cooldown")){
+            long time = (TeleportPlayer.tpCooldownBetweenTeleportation.get(p.getUniqueId().toString()) - System.currentTimeMillis())/1000;
+            return Long.toString(time);
+        }
         return null;
     }
 }

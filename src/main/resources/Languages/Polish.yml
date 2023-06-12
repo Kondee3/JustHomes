@@ -18,13 +18,17 @@ EditedHome: "&6%justhomes_homename% &7został poprawiony!"
 
 #Teleportation
 Teleporting: "&7Teleportacja za &6%justhomes_teleportationtime% &7sekund! &cNie ruszaj się!"
-SuccesfullTeleportation: "&7Teleportacja do &6%justhomes_homename%"
+SuccessfulTeleportation: "&7Teleportacja do &6%justhomes_homename%"
 ActionBarNameWhileTeleporting: "&aTeleportacja..."
 TeleportationCancelled: "&cTeleportacja Anulowana!"
 UnavailableHome: "&cNie można się już przeteleportować do tej lokalizacji!"
+PendingAnotherTeleportation: "&cOczekiwanie na inną teleportację!"
+TeleportationOnCooldown: "&cWykorzystano już teleportację. Następna możliwa za &6%justhomes_cooldown%&c sekund!"
 
 #DeleteHome
 DeletedHome: "&6%justhomes_homename% &7został usunięty!"
 
 #Other
 NotHumanException: "Nie jesteś graczem!"
+ReloadLaguageFile: "Przeładowano plik językowy!"
+SavingAllPlayersData: "Zapisywanie danych wszystkich graczy!"

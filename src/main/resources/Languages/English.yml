@@ -18,13 +18,17 @@ EditedHome: "&6%justhomes_homename%&7 has been edited!"
 
 #Teleportation
 Teleporting: "&7Teleporting in &6%justhomes_teleportationtime% &7seconds! &cDont move!"
-SuccesfullTeleportation: "&7You were succesfully teleported to &6%justhomes_homename%"
+SuccessfulTeleportation: "&7You were succesfully teleported to &6%justhomes_homename%"
 ActionBarNameWhileTeleporting: "&aTeleporting..."
 TeleportationCancelled: "&cTeleportation Cancelled!"
 UnavailableHome: "&cThat home is no longer available!"
+PendingAnotherTeleportation: "&cWaiting for another teleportation "
+TeleportationOnCooldown: "&cTeleportation is on cooldown. You have to wait &6%justhomes_cooldown%&c seconds!"
 
 #DeleteHome
 DeletedHome: "&6%justhomes_homename%&7 has been successfully deleted!"
 
 #Other
 NotHumanException: "You are not a player!"
+ReloadLaguageFile: "Language file reloaded!"
+SavingAllPlayersData: "Saving all players data!"

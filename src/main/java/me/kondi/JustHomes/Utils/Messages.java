@@ -11,6 +11,9 @@ public class Messages {
         return messages.get(id);
     }
 
+    /**
+     * Reloads messages when command reloadlanguage is used.
+     */
     public static void reload() {
         plugin.reloadConfig();
         plugin.config = plugin.getConfig();
@@ -19,10 +22,19 @@ public class Messages {
         plugin.cfgManager.loadLanguage(lang);
 
     }
+
+    /**
+     * Clears all messages in cache.
+     */
     public static void clear(){
         messages.clear();
     }
 
+    /**
+     * Used for putting message to HashMap with its key.
+     * @param key Message name
+     * @param message Message text
+     */
     public static void put(String key, String message){
         messages.put(key, message);
     }

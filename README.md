@@ -40,13 +40,14 @@ Contribute to make the list longer :wink:
 ## Permissions
 
 
-| Permission               | Player               |
-|--------------------------|----------------------|
-| justhomes.sethome        | Default              |
-| justhomes.home           | Default              |
-| justhomes.listhome       | Default              |
-| justhomes.delhome        | Default              |
-| justhomes.reloadlanguage | OP                   |
-| justhomes.maxhomes       | Value  (Default: 5)  |
-| justhomes.teleportationdelay| Value (Default: 5)|
+| Permission               | Player                                        |
+|--------------------------|-----------------------------------------------|
+| justhomes.sethome        | Default                                       |
+| justhomes.home           | Default                                       |
+| justhomes.listhome       | Default                                       |
+| justhomes.delhome        | Default                                       |
+| justhomes.reloadlanguage | Admin                                         |
+| justhomes.maxhomes       | Value  (Default: 5)                           |
+| justhomes.teleportationsound| Value (Default: ENTITY_EXPERIENCE_ORB_PICKUP) |
+| justhomes.teleportationcooldown| Value (Default: 5)                            |
 

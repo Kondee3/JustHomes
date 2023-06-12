@@ -1,6 +1,5 @@
 package me.kondi.JustHomes;
 
-import com.google.common.base.Charsets;
 import me.kondi.JustHomes.Commands.*;
 import me.kondi.JustHomes.Data.Database;
 import me.kondi.JustHomes.Data.PlayerData;
@@ -13,20 +12,9 @@ import me.kondi.JustHomes.Utils.Messages;
 import me.kondi.JustHomes.Utils.Metrics;
 import me.kondi.JustHomes.Utils.Placeholder;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.Configuration;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.MemoryConfiguration;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Optional;
-import java.util.Set;
-
 
 public class JustHomes extends JavaPlugin {
 
@@ -38,7 +26,11 @@ public class JustHomes extends JavaPlugin {
     public boolean simpleProtection;
     public int homesMaxAmount;
     public int teleportationDelay;
+    public int teleportationCooldown;
 
+    public boolean soundsEnabled;
+
+    public String sound;
     //Classes
     public Events events;
     public Database db;
@@ -63,10 +55,12 @@ public class JustHomes extends JavaPlugin {
     }
 
 
+    /**
+     * Method initialized when the server turns on.
+     */
     @Override
     public void onEnable() {
         instance = this;
-
         if (getServer().getPluginManager().getPlugin("PlaceholderAPI") == null) {
             getServer().getConsoleSender().sendMessage(String.format("[%s] Disabled due to no PlaceholderAPI dependency found!", getDescription().getName()));
             getServer().getPluginManager().disablePlugin(this);
@@ -74,29 +68,38 @@ public class JustHomes extends JavaPlugin {
         }
 
 
-        setupConfig();
         loadConfig();
         loadClasses();
         loadCommands();
         getServer().getPluginManager().registerEvents(events, this);
+        Player[] players = getServer().getOnlinePlayers().toArray(new Player[0]);
+        if(getServer().getOnlinePlayers().size() >0)
+            for (Player player : players)
+                events.addPlayer(player);
+
+
     }
 
+    /**
+     * Method initialized when the server turns off.
+     */
     @Override
     public void onDisable() {
         loadConfig();
         if (db != null) {
+            String message = Messages.get("SavingAllPlayersData");
+            if(message != null)
+                getServer().getConsoleSender().sendMessage(prefix + message);
+            else getServer().getConsoleSender().sendMessage(prefix + "Saving all players data!");
             db.saveAllHomes();
+            db.saveTeleportationCooldowns();
             db.stopDatabaseConnection();
         }
     }
 
-
-    public void loadConfig() {
-        cfgManager.setup(); //create folder
-        Messages.reload();
-
-    }
-
+    /**
+     * Creates instance for every class.
+     */
     public void loadClasses() {
         metrics = new Metrics(this, 15508);
         db = new Database(this);
@@ -113,8 +116,9 @@ public class JustHomes extends JavaPlugin {
         new Placeholder().register();
     }
 
-
-    //Load all commands
+    /**
+     * Register all commands.
+     */
     public void loadCommands() {
 
         getCommand("sethome").setExecutor(commands);
@@ -126,19 +130,25 @@ public class JustHomes extends JavaPlugin {
         getCommand("reloadlanguage").setExecutor(commands);
     }
 
-
-    //Setting up config file
-    public void setupConfig() {
+    /***
+     *Loads all the variables from the Config.
+     */
+    public void loadConfig() {
         saveDefaultConfig();
+        cfgManager.setup();
         cfgManager.updateConfig();
         prefix = config.getString(ChatColor.translateAlternateColorCodes('&', "Prefix"));
         simpleProtection = config.getBoolean("SimpleProtection");
         homesMaxAmount = config.getInt("HomesMaxAmount");
         teleportationDelay = config.getInt("DelayInTeleport");
+        soundsEnabled = config.getBoolean("SoundsEnabled");
+        teleportationCooldown = config.getInt("TeleportationCooldown");
+        if (soundsEnabled) {
+            sound = config.getString("Sound");
+        }
+
+        Messages.reload();
+
 
     }
-
-
-
-
 }

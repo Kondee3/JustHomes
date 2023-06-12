@@ -23,6 +23,9 @@ public class ConfigManager {
 
     }
 
+    /**
+     * Creating folders of plugin.
+     */
     public void setup() {
         plugin.getDataFolder().mkdir();
         createFileDataFolder("playerdata");
@@ -30,6 +33,10 @@ public class ConfigManager {
 
     }
 
+    /**
+     * Create folder.
+     * @param name Name of folder.
+     */
     public void createFileDataFolder(String name) {
         folder = new File(plugin.getDataFolder(), name);
         folder.mkdir();
@@ -37,6 +44,9 @@ public class ConfigManager {
         folderCfg = YamlConfiguration.loadConfiguration(folder);
     }
 
+    /**
+     * Config update, copying all variables from old config to new.
+     */
     public void updateConfig() {
         plugin.config = plugin.getConfig();
         FileConfiguration oldConfig = plugin.config;
@@ -45,7 +55,7 @@ public class ConfigManager {
         plugin.saveResource("config.yml", false);
         updateConfigVariable();
 
-        //Updating new config.yml
+
         Set<String> sections = oldConfig.getConfigurationSection("").getKeys(false);
         for (String key : sections) {
             if(plugin.config.contains(key))
@@ -55,11 +65,18 @@ public class ConfigManager {
         updateConfigVariable();
     }
 
+    /**
+     * Reloads config and config variable.
+     */
     private void updateConfigVariable(){
         plugin.reloadConfig();
         plugin.config = plugin.getConfig();
     }
 
+    /**
+     * Loads language file with specified name from config file.
+     * @param lang Language name.
+     */
     public void loadLanguage(String lang) {
 
         file = new File(plugin.getDataFolder() + File.separator + "Languages" + File.separator + lang);

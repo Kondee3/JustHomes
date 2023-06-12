@@ -12,7 +12,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -33,11 +32,15 @@ public class HomeCommand {
         this.teleportationDelay = plugin.teleportationDelay;
     }
 
-
+    /**
+     * Teleports player to home.
+     * @param p Player who want to be teleported to home location.
+     * @param args Arguments including name of player's home.
+     */
     public void get(Player p, String[] args) {
 
         String uuid = p.getUniqueId().toString();
-        if (playerData.countPlayerHomes(uuid) == 0) {
+        if (playerData.getHomesAmount(uuid) == 0) {
             p.sendMessage(prefix + Messages.get("UserHasNoHomes"));
             return;
         }
@@ -50,7 +53,7 @@ public class HomeCommand {
 
         String homeName = args[0];
         Home home = playerData.getHome(uuid, homeName);
-        List<Home> homeList = playerData.listOfHomes(uuid);
+        List<Home> homeList = playerData.getListOfHomes(uuid);
 
         if (home == null) {
             p.sendMessage(prefix + Messages.get("UnknownHomeName"));
@@ -61,7 +64,7 @@ public class HomeCommand {
             return;
         }
 
-        Location loc = new Location(Bukkit.getWorld(home.getWorldName()), home.getX(), home.getY(), home.getZ(), home.getYaw(), home.getPitch());
+        Location loc = home.getLocation();
 
         if (plugin.simpleProtection) {
             Material middle = loc.getBlock().getType();
@@ -72,8 +75,7 @@ public class HomeCommand {
             }
         }
 
-        HomeNames.addHomeName(uuid, homeName);
-        plugin.teleportPlayer.teleportPlayer(p, loc, PermissionChecker.checkDelay(p));
+        plugin.teleportPlayer.teleportPlayer(p, home, PermissionChecker.checkDelay(p));
 
 
     }

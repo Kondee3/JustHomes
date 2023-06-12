@@ -3,15 +3,24 @@ Prefix: "JHomes >> "
 #Specify max amount of homes for players
 HomesMaxAmount: 5
 
-#In seconds
+#Delay in teleport (seconds)
 DelayInTeleport: 5
+
+#Time between teleportations (seconds)
+TeleportationCooldown: 5
 
 #All available languages in documentation
 Language: English
 
 #Protects against setting home in air or above the lava.
-#Set to false if you dont want to use it.
+#Set to false if you don't want to use it.
 SimpleProtection: true
+
+#Lets you turn on the sounds!
+SoundsEnabled: true
+
+#List of Sounds: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
+Sound: ENTITY_EXPERIENCE_ORB_PICKUP
 
 #Database
 #Types:
