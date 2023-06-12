@@ -10,7 +10,7 @@ It's a repository of my project JustHomes for Spigot and Bukkit servers.
 
 
 ## Current Versions
-Currently only 1.14 and 1.19 versions are supported.
+Currently only 1.14 and 1.19, 1.20 versions are supported.
 
 Let me know if you want more versions in the comments of spigot page.
 
