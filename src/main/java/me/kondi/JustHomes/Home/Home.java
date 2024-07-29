@@ -1,17 +1,35 @@
 package me.kondi.JustHomes.Home;
 
+import com.j256.ormlite.field.DataType;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
-public class Home {
+import java.util.UUID;
 
+@DatabaseTable(tableName = "HOMES")
+public class Home {
+    public Home() {
+    }
+
+    @DatabaseField(dataType = DataType.UUID, id = true, uniqueCombo = true)
+    private UUID id;
+    @DatabaseField(uniqueCombo = true)
     private String owner;
+    @DatabaseField(uniqueCombo = true)
     private String homeName;
+    @DatabaseField
     private String worldName;
+    @DatabaseField
     private double x;
+    @DatabaseField
     private double y;
+    @DatabaseField
     private double z;
+    @DatabaseField
     private float pitch;
+    @DatabaseField
     private float yaw;
 
     /**
@@ -25,7 +43,8 @@ public class Home {
      * @param pitch Pitch parameter
      * @param yaw Yaw parameter
      */
-    public Home(String owner, String homeName, String worldName, double x, double y, double z, float pitch, float yaw) {
+    public Home(UUID id, String owner, String homeName, String worldName, double x, double y, double z, float pitch, float yaw) {
+        this.id = id;
         this.owner = owner;
         this.homeName = homeName;
         this.worldName = worldName;
@@ -79,5 +98,19 @@ public class Home {
         return new Location(Bukkit.getWorld(worldName), x, y, z, yaw, pitch);
     }
 
+    public void setLocation(Location loc){
+        this.worldName = loc.getWorld().getName();
+        this.x = loc.getX();
+        this.y = loc.getY();
+        this.z = loc.getZ();
+        this.pitch = loc.getPitch();
+        this.yaw = loc.getYaw();
+    }
+    public void setHomeName(String homeName) {
+        this.homeName = homeName;
+    }
 
+    public UUID getId() {
+        return id;
+    }
 }

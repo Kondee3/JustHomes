@@ -1,12 +1,10 @@
 package me.kondi.JustHomes.Commands;
 
-import me.kondi.JustHomes.Data.PlayerData;
+import me.kondi.JustHomes.PlayerData.PlayerData;
 import me.kondi.JustHomes.Home.Home;
-import me.kondi.JustHomes.Home.HomeNames;
 import me.kondi.JustHomes.JustHomes;
 import me.kondi.JustHomes.Permissions.PermissionChecker;
 import me.kondi.JustHomes.Utils.Messages;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -24,6 +22,7 @@ public class HomeCommand {
             Material.SWEET_BERRY_BUSH, Material.WITHER_ROSE, Material.LAVA, Material.POWDER_SNOW};
     private List<Material> damageBlocks = Arrays.asList(damageBlocksMaterials);
     private int teleportationDelay;
+
     public HomeCommand(JustHomes plugin) {
         this.plugin = plugin;
         this.prefix = plugin.prefix;
@@ -34,10 +33,11 @@ public class HomeCommand {
 
     /**
      * Teleports player to home.
-     * @param p Player who want to be teleported to home location.
+     *
+     * @param p    Player who want to be teleported to home location.
      * @param args Arguments including name of player's home.
      */
-    public void get(Player p, String[] args) {
+    public void getHome(Player p, String[] args) {
 
         String uuid = p.getUniqueId().toString();
         if (playerData.getHomesAmount(uuid) == 0) {
@@ -59,7 +59,7 @@ public class HomeCommand {
             p.sendMessage(prefix + Messages.get("UnknownHomeName"));
             return;
         }
-        if(homeList.indexOf(home) + 1 > PermissionChecker.checkHomesMaxAmount(p)){
+        if (homeList.indexOf(home) + 1 > PermissionChecker.checkHomesMaxAmount(p)) {
             p.sendMessage(prefix + Messages.get("UnavailableHome"));
             return;
         }

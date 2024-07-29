@@ -3,6 +3,7 @@ package me.kondi.JustHomes.Commands;
 
 import me.kondi.JustHomes.Home.Home;
 import me.kondi.JustHomes.JustHomes;
+import me.kondi.JustHomes.Permissions.PermissionChecker;
 import me.kondi.JustHomes.Utils.Messages;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -31,7 +32,6 @@ public class Commands implements CommandExecutor, TabCompleter {
      * @param cmd Command which was executed
      * @param label Alias of the command which was used
      * @param args Passed command arguments
-     * @return
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
@@ -54,17 +54,22 @@ public class Commands implements CommandExecutor, TabCompleter {
         }
         if (cmd.getName().equalsIgnoreCase("delhome")) {
             if (p.hasPermission("justhomes.delhome"))
-                plugin.deleteHome.delete(p, args);
+                plugin.deleteHome.deleteHome(p, args);
 
         }
 
         if (cmd.getName().equalsIgnoreCase("sethome")) {
             if (p.hasPermission("justhomes.sethome"))
-                plugin.setHome.set(p, args);
+                plugin.setHome.setHome(p, args);
         }
         if (cmd.getName().equalsIgnoreCase("home")) {
             if (p.hasPermission("justhomes.home"))
-                plugin.homeCommand.get(p, args);
+                plugin.homeCommand.getHome(p, args);
+
+        }
+        if (cmd.getName().equalsIgnoreCase("renamehome")) {
+            if (p.hasPermission("justhomes.renamehome"))
+                plugin.renameHomeCommand.renameHome(p, args);
 
         }
 
@@ -82,11 +87,11 @@ public class Commands implements CommandExecutor, TabCompleter {
      * @param arg2 Alias of the command which was used
      * @param args The arguments passed to the command, including final
      *     partial argument to be completed
-     * @return
      */
     @Override
     public ArrayList<String> onTabComplete(@NotNull CommandSender sender, Command cmd, @NotNull String arg2, String[] args) {
-        if (cmd.getName().equalsIgnoreCase("delhome") || cmd.getName().equalsIgnoreCase("home")) {
+        if (cmd.getName().equalsIgnoreCase("delhome") || cmd.getName().equalsIgnoreCase("home")
+                || (cmd.getName().equalsIgnoreCase("renamehome") && args.length == 1)) {
 
             if (args.length == 1) {
 
@@ -102,7 +107,7 @@ public class Commands implements CommandExecutor, TabCompleter {
 
 
                 List<Home> keys = plugin.playerData.getListOfHomes(uuid);
-                int homesMaxAmount = plugin.permissionChecker.checkHomesMaxAmount(p);
+                int homesMaxAmount = PermissionChecker.checkHomesMaxAmount(p);
                 if (keys.size() < homesMaxAmount) homesMaxAmount = keys.size();
                 for (int i = 0; i < homesMaxAmount; i++) {
                     if (keys.get(i).getHomeName().startsWith(args[0].toLowerCase())) {

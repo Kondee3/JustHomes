@@ -1,9 +1,10 @@
 package me.kondi.JustHomes.Commands;
 
 
-import me.kondi.JustHomes.Data.PlayerData;
+import me.kondi.JustHomes.PlayerData.PlayerData;
 import me.kondi.JustHomes.Home.Home;
 import me.kondi.JustHomes.JustHomes;
+import me.kondi.JustHomes.Permissions.PermissionChecker;
 import me.kondi.JustHomes.Utils.Messages;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -39,7 +40,7 @@ public class ListHomeCommand {
         }
 
         List<Home> keys = playerData.getListOfHomes(uuid);
-        int maxHomesAmount = plugin.permissionChecker.checkHomesMaxAmount(p);
+        int maxHomesAmount = PermissionChecker.checkHomesMaxAmount(p);
         if (keys.size() < maxHomesAmount) maxHomesAmount = keys.size();
 
         if (keys.size() == 0) {

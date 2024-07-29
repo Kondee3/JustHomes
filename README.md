@@ -10,7 +10,7 @@ It's a repository of my project JustHomes for Spigot and Bukkit servers.
 
 
 ## Current Versions
-Currently only 1.14 and 1.19, 1.20 versions are supported.
+Currently only 1.14 and 1.19, 1.20, 1.21 versions are supported.
 
 Let me know if you want more versions in the comments of spigot page.
 
@@ -29,13 +29,14 @@ Contribute to make the list longer :wink:
 ## Commands
 
    
-| Command             |Alias|        Description         |
-| --------------------|-----|----------------------------|
-|sethome              |sh   |You can create homes with it|
-|home                 |h    |Teleports you to your home  |
-|listhome             |lh   |Lists all your homes        |
-|delhome              |dh   |Deletes your home           |
-|reloadlanguage       |-    |Reloads languages           |
+| Command        | Alias |        Description         |
+|----------------|-------|----------------------------|
+| sethome        | sh    |You can create homes with it|
+| home           | h     |Teleports you to your home  |
+| listhome       | lh    |Lists all your homes        |
+| delhome        | dh    |Deletes your home           |
+| renamehome     | rh    |Deletes your home           |
+| reloadlanguage | -     |Reloads languages           |
 
 ## Permissions
 
@@ -46,6 +47,7 @@ Contribute to make the list longer :wink:
 | justhomes.home                  | Default                                       |
 | justhomes.listhome              | Default                                       |
 | justhomes.delhome               | Default                                       |
+| justhomes.renamehome            | Default                                       |
 | justhomes.reloadlanguage        | Admin                                         |
 | justhomes.maxhomes              | Value  (Default: 5)                           |
 | justhomes.teleportationsound    | Value (Default: ENTITY_EXPERIENCE_ORB_PICKUP) |

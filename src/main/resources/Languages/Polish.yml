@@ -28,6 +28,10 @@ TeleportationOnCooldown: "&cWykorzystano już teleportację. Następna możliwa 
 #DeleteHome
 DeletedHome: "&6%justhomes_homename% &7został usunięty!"
 
+#RenameHome
+SpecifyNewHomeNameException: "&cMusisz podać nową nazwę dla domu!"
+DuplicateHomeNameException: "&cDom z taką nazwą już istnieje!"
+NameSuccessfullyChanged: "&7Pomyślnie zmieniono nazwę!"
 #Other
 NotHumanException: "Nie jesteś graczem!"
 ReloadLaguageFile: "Przeładowano plik językowy!"

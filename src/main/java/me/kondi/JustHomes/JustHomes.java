@@ -1,9 +1,9 @@
 package me.kondi.JustHomes;
 
 import me.kondi.JustHomes.Commands.*;
+import me.kondi.JustHomes.Data.Cache;
 import me.kondi.JustHomes.Data.Database;
-import me.kondi.JustHomes.Data.PlayerData;
-import me.kondi.JustHomes.Home.HomeNames;
+import me.kondi.JustHomes.PlayerData.PlayerData;
 import me.kondi.JustHomes.Listeners.Events;
 import me.kondi.JustHomes.Permissions.PermissionChecker;
 import me.kondi.JustHomes.Teleportation.TeleportPlayer;
@@ -38,12 +38,14 @@ public class JustHomes extends JavaPlugin {
     public Commands commands;
     public TeleportPlayer teleportPlayer;
     public PermissionChecker permissionChecker;
-    public HomeNames homeNames;
     //Home commands
     public SetHomeCommand setHome;
     public HomeCommand homeCommand;
     public ListHomeCommand listHome;
     public DeleteHomeCommand deleteHome;
+    public RenameHomeCommand renameHomeCommand;
+
+    public Cache cache;
 
     private Metrics metrics;
 
@@ -73,11 +75,9 @@ public class JustHomes extends JavaPlugin {
         loadCommands();
         getServer().getPluginManager().registerEvents(events, this);
         Player[] players = getServer().getOnlinePlayers().toArray(new Player[0]);
-        if(getServer().getOnlinePlayers().size() >0)
+        if(!getServer().getOnlinePlayers().isEmpty())
             for (Player player : players)
-                events.addPlayer(player);
-
-
+                events.loadPlayerData(player);
     }
 
     /**
@@ -91,9 +91,13 @@ public class JustHomes extends JavaPlugin {
             if(message != null)
                 getServer().getConsoleSender().sendMessage(prefix + message);
             else getServer().getConsoleSender().sendMessage(prefix + "Saving all players data!");
-            db.saveAllHomes();
+            Cache.saveAllHomes();
             db.saveTeleportationCooldowns();
-            db.stopDatabaseConnection();
+            try {
+                db.stopDatabaseConnection();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -103,6 +107,7 @@ public class JustHomes extends JavaPlugin {
     public void loadClasses() {
         metrics = new Metrics(this, 15508);
         db = new Database(this);
+        cache = new Cache(this);
         playerData = new PlayerData(this);
         events = new Events(this);
         commands = new Commands(this);
@@ -111,8 +116,8 @@ public class JustHomes extends JavaPlugin {
         homeCommand = new HomeCommand(this);
         listHome = new ListHomeCommand(this);
         deleteHome = new DeleteHomeCommand(this);
+        renameHomeCommand = new RenameHomeCommand(this);
         permissionChecker = new PermissionChecker(this);
-        homeNames = new HomeNames();
         new Placeholder().register();
     }
 
@@ -128,6 +133,7 @@ public class JustHomes extends JavaPlugin {
         getCommand("delhome").setExecutor(commands);
         getCommand("delhome").setTabCompleter(commands);
         getCommand("reloadlanguage").setExecutor(commands);
+        getCommand("renamehome").setExecutor(commands);
     }
 
     /***

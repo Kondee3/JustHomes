@@ -62,7 +62,7 @@ public class PermissionChecker {
             if (permissions.getPermission().contains(teleportationCooldownPermission))
                 return  Integer.parseInt(permissions.getPermission().split("\\.")[2]);
 
-        return teleportationDelay;
+        return teleportationCooldown;
     }
 
     /**

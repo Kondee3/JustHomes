@@ -1,7 +1,10 @@
-package me.kondi.JustHomes.Data;
+package me.kondi.JustHomes.PlayerData;
 
+import me.kondi.JustHomes.Data.Cache;
+import me.kondi.JustHomes.Data.Database;
 import me.kondi.JustHomes.Home.Home;
 import me.kondi.JustHomes.JustHomes;
+import org.bukkit.Location;
 import org.bukkit.command.ConsoleCommandSender;
 
 import java.sql.SQLException;
@@ -32,7 +35,7 @@ public class PlayerData {
      */
     public int getHomesAmount(String uuid) {
         try {
-            return db.getHomesAmount(uuid);
+            return Cache.getHomesAmount(uuid);
         } catch (SQLException ex) {
             console.sendMessage(prefix + "ERROR: " + ex);
         }
@@ -46,7 +49,7 @@ public class PlayerData {
      * @return List of player's saved homes.
      */
     public List<Home> getListOfHomes(String uuid) {
-        return db.getCachedListOfHomes(uuid);
+        return Cache.getCachedListOfHomes(uuid);
     }
 
     /**
@@ -57,7 +60,7 @@ public class PlayerData {
      */
     public Home getHome(String uuid, String homeName){
         try {
-            return  db.getHome(uuid, homeName);
+            return  Cache.getHome(uuid, homeName);
         }
         catch (SQLException ex){
             console.sendMessage(prefix + "ERROR: " + ex);
@@ -70,7 +73,7 @@ public class PlayerData {
      * @param uuid Player's uuid.
      */
     public void saveHomes(String uuid) {
-        db.saveHomes(uuid);
+        Cache.saveHomes(uuid);
     }
 
     /**
@@ -78,15 +81,15 @@ public class PlayerData {
      * @param uuid Player's uuid.
      */
     public void saveCooldown(String uuid) {
-        db.saveCooldown(uuid);
+        try {
+            db.saveCooldown(uuid);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void deleteHome(Home home) {
-        try {
-            db.deleteHome(home);
-        } catch (SQLException ex) {
-            console.sendMessage(prefix + "ERROR: " + ex);
-        }
+        Cache.removeHome(home);
     }
 
     /**
@@ -94,8 +97,13 @@ public class PlayerData {
      * @param uuid Player's uuid.
      */
     public void loadPlayerData(String uuid) {
-        db.loadHomesData(uuid);
-        db.loadPlayerData(uuid);
+
+        try {
+            db.loadHomesData(uuid);
+            db.loadPlayerData(uuid);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -104,7 +112,7 @@ public class PlayerData {
      * @param home Player's home object.
      */
     public void addHome(Home home) {
-        db.addHomeToCache(home);
+        Cache.addHomeToCache(home);
     }
 
     /**
@@ -112,8 +120,12 @@ public class PlayerData {
      * @param home Player's home object.
      * @param newHome Player's new home object.
      */
-    public void replaceHome(Home home, Home newHome) {
-        db.replaceHomeInCache(home, newHome);
+    public void editHomeLocation(Home home, Location loc) {
+        Cache.editHomeLocationInCache(home, loc);
+    }
+
+    public void renameHome(Home home, String newName) {
+        Cache.renameHomeInCache(home, newName);
     }
 
 }

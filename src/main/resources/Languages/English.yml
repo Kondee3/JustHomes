@@ -28,6 +28,10 @@ TeleportationOnCooldown: "&cTeleportation is on cooldown. You have to wait &6%ju
 #DeleteHome
 DeletedHome: "&6%justhomes_homename%&7 has been successfully deleted!"
 
+#RenameHome
+SpecifyNewHomeNameException: "&cYou need to specify a new home name!"
+DuplicateHomeNameException: "&cHome with that name already exists!"
+NameSuccessfullyChanged: "&7Name successfully changed!"
 #Other
 NotHumanException: "You are not a player!"
 ReloadLaguageFile: "Language file reloaded!"

@@ -2,16 +2,18 @@ package me.kondi.JustHomes.Commands;
 
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import me.kondi.JustHomes.Data.PlayerData;
+import me.kondi.JustHomes.PlayerData.PlayerData;
 import me.kondi.JustHomes.Home.Home;
 import me.kondi.JustHomes.Home.HomeNames;
 import me.kondi.JustHomes.JustHomes;
 import me.kondi.JustHomes.Utils.Messages;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public class SetHomeCommand {
 
@@ -39,7 +41,7 @@ public class SetHomeCommand {
      * @param p Player whose home will be created.
      * @param args Arguments including name of player's home.
      */
-    public void set(Player p, String[] args) {
+    public void setHome(Player p, String[] args) {
 
         String uuid = p.getUniqueId().toString();
 
@@ -59,14 +61,11 @@ public class SetHomeCommand {
 
         List<Home> playerHomes = playerData.getListOfHomes(uuid);
 
-        if (playerHomes.size() == 0) {
-            saveLoc(p, args[0]);
-            p.sendMessage(prefix + PlaceholderAPI.setPlaceholders(p, Messages.get("CreatedHome")));
-        } else {
+        if (playerHomes.size() != 0) {
 
             Home home = playerData.getHome(uuid, args[0]);
             if (home != null) {
-                replaceLoc(p, home);
+                editHomeLocation(p, home);
                 p.sendMessage(prefix + PlaceholderAPI.setPlaceholders(p, Messages.get("EditedHome")));
                 return;
             }
@@ -75,24 +74,26 @@ public class SetHomeCommand {
                 return;
             }
 
-            saveLoc(p, args[0]);
-            p.sendMessage(prefix + PlaceholderAPI.setPlaceholders(p, Messages.get("CreatedHome")));
         }
+        saveLoc(p, args[0]);
+        p.sendMessage(prefix + PlaceholderAPI.setPlaceholders(p, Messages.get("CreatedHome")));
     }
 
 
-    public void saveLoc(Player p, String homeName) {
+    private void saveLoc(Player p, String homeName) {
         String uuid = p.getUniqueId().toString();
         HomeNames.addHomeName(uuid, homeName);
-        Home home = new Home(uuid, homeName, p.getLocation().getWorld().getName(), p.getLocation().getX(), p.getLocation().getY(), p.getLocation().getZ(), p.getLocation().getPitch(), p.getLocation().getYaw());
-        playerData.addHome(home);
+        playerData.addHome(homeFactory(UUID.randomUUID(),uuid, homeName, p.getLocation()));
     }
 
-    public void replaceLoc(Player p, Home home) {
+    private Home homeFactory(UUID id, String uuid, String homeName, Location loc){
+        return new Home(id, uuid, homeName, loc.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ(), loc.getPitch(), loc.getYaw());
+    }
+
+    private void editHomeLocation(Player p, Home home) {
         String uuid = p.getUniqueId().toString();
         HomeNames.addHomeName(uuid, home.getHomeName());
-        Home newHome = new Home(uuid, home.getHomeName(), p.getLocation().getWorld().getName(), p.getLocation().getX(), p.getLocation().getY(), p.getLocation().getZ(), p.getLocation().getPitch(), p.getLocation().getYaw());
-        playerData.replaceHome(home, newHome);
+        playerData.editHomeLocation(home, p.getLocation());
     }
 
 }

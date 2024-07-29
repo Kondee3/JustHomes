@@ -6,7 +6,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.Set;
 
 public class ConfigManager {
@@ -14,7 +13,7 @@ public class ConfigManager {
     private YamlConfiguration folderCfg;
     private File folder;
     private File file;
-    
+
     private YamlConfiguration messagesCfg;
     private final JustHomes plugin;
 
@@ -35,6 +34,7 @@ public class ConfigManager {
 
     /**
      * Create folder.
+     *
      * @param name Name of folder.
      */
     public void createFileDataFolder(String name) {
@@ -50,7 +50,7 @@ public class ConfigManager {
     public void updateConfig() {
         plugin.config = plugin.getConfig();
         FileConfiguration oldConfig = plugin.config;
-        File cfgFile  =  new File(plugin.getDataFolder() + File.separator + "config.yml");
+        File cfgFile = new File(plugin.getDataFolder() + File.separator + "config.yml");
         cfgFile.delete();
         plugin.saveResource("config.yml", false);
         updateConfigVariable();
@@ -58,7 +58,7 @@ public class ConfigManager {
 
         Set<String> sections = oldConfig.getConfigurationSection("").getKeys(false);
         for (String key : sections) {
-            if(plugin.config.contains(key))
+            if (plugin.config.contains(key))
                 plugin.config.set(key, oldConfig.get(key));
         }
         plugin.saveConfig();
@@ -68,13 +68,14 @@ public class ConfigManager {
     /**
      * Reloads config and config variable.
      */
-    private void updateConfigVariable(){
+    private void updateConfigVariable() {
         plugin.reloadConfig();
         plugin.config = plugin.getConfig();
     }
 
     /**
      * Loads language file with specified name from config file.
+     *
      * @param lang Language name.
      */
     public void loadLanguage(String lang) {
@@ -84,7 +85,7 @@ public class ConfigManager {
         Set<String> keys = messagesCfg.getConfigurationSection("").getKeys(false);
         Messages.clear();
         for (String key : keys) {
-            Messages.put(key, ChatColor.translateAlternateColorCodes('&',messagesCfg.getString(key)));
+            Messages.put(key, ChatColor.translateAlternateColorCodes('&', messagesCfg.getString(key)));
         }
 
 

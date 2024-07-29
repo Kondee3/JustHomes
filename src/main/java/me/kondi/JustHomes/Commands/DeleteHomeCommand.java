@@ -1,7 +1,7 @@
 package me.kondi.JustHomes.Commands;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import me.kondi.JustHomes.Data.PlayerData;
+import me.kondi.JustHomes.PlayerData.PlayerData;
 import me.kondi.JustHomes.Home.Home;
 import me.kondi.JustHomes.Home.HomeNames;
 import me.kondi.JustHomes.JustHomes;
@@ -26,7 +26,7 @@ public class DeleteHomeCommand {
      * @param args Arguments including name of player's home.
      */
 
-    public void delete(Player p, String[] args) {
+    public void deleteHome(Player p, String[] args) {
         String uuid = p.getUniqueId().toString();
 
         if (args.length == 0) {

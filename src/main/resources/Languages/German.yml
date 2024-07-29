@@ -28,6 +28,11 @@ TeleportationOnCooldown: "&cTeleportation ist auf Abklingzeit. Sie müssen &6%ju
 #DeleteHome
 DeletedHome: "&6%justhomes_homename%&7 wurde erfolgreich gelöscht."
 
+#RenameHome
+SpecifyNewHomeNameException: "Sie müssen einen neuen Hausnamen angeben!"
+DuplicateHomeNameException: "&cHaus mit diesem Namen existiert bereits!"
+NameSuccessfullyChanged: "&7Name erfolgreich geändert!"
+
 #Other
 NotHumanException: "Du bist kein Spieler!"
 ReloadLaguageFile: "Sprachdatei neu geladen!"
