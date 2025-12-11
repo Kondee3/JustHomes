@@ -29,28 +29,31 @@ Contribute to make the list longer :wink:
 ## Commands
 
    
-| Command        | Alias |        Description         |
-|----------------|-------|----------------------------|
-| sethome        | sh    |You can create homes with it|
-| home           | h     |Teleports you to your home  |
-| listhome       | lh    |Lists all your homes        |
-| delhome        | dh    |Deletes your home           |
-| renamehome     | rh    |Deletes your home           |
-| reloadlanguage | -     |Reloads languages           |
+| Command          | Alias | Description                  |
+|------------------|-------|------------------------------|
+| `sethome`        | `sh`  | You can create homes with it |
+| `home`           | `h`   | Teleports you to your home   |
+| `listhome`       | `lh`  | Lists all your homes         |
+| `delhome`        | `dh`  | Deletes your home            |
+| `renamehome`     | `rh`  | Deletes your home            |
+| `reloadlanguage` | -     | Reloads languages            |
 
 ## Permissions
 
 
-| Permission                      | Player                                        |
-|---------------------------------|-----------------------------------------------|
-| justhomes.sethome               | Default                                       |
-| justhomes.home                  | Default                                       |
-| justhomes.listhome              | Default                                       |
-| justhomes.delhome               | Default                                       |
-| justhomes.renamehome            | Default                                       |
-| justhomes.reloadlanguage        | Admin                                         |
-| justhomes.maxhomes              | Value  (Default: 5)                           |
-| justhomes.teleportationsound    | Value (Default: ENTITY_EXPERIENCE_ORB_PICKUP) |
-| justhomes.teleportationcooldown | Value (Default: 5)                            |
-| justhomes.teleportationdelay    | Value (Default: 5)                            |
+| Permission                        | Player                                        |
+|-----------------------------------|-----------------------------------------------|
+| `justhomes.sethome`               | Default                                       |
+| `justhomes.home`                  | Default                                       |
+| `justhomes.listhome`              | Default                                       |
+| `justhomes.delhome`               | Default                                       |
+| `justhomes.renamehome`            | Default                                       |
+| `justhomes.reloadlanguage`        | Admin                                         |
+| `justhomes.maxhomes`              | Value  (Default: 5)                           |
+| `justhomes.teleportationsound`    | Value (Default: ENTITY_EXPERIENCE_ORB_PICKUP) |
+| `justhomes.teleportationcooldown` | Value (Default: 5)                            |
+| `justhomes.teleportationdelay`    | Value (Default: 5)                            |
 
+## Build
+#### Build with maven 
+```mvn package -Ddir=<pluginsDir>```where `pluginsDir` is plugins directory of your test server.

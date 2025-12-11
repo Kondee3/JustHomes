@@ -70,7 +70,7 @@
                                     <type>${project.packaging}</type>
                                 </artifactItem>
                             </artifactItems>
-                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <outputDirectory>${pluginsDir}</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
