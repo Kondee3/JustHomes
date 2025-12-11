@@ -29,14 +29,16 @@ public class Commands implements CommandExecutor, TabCompleter {
     /**
      *
      * @param sender Source of the command
-     * @param cmd Command which was executed
-     * @param label Alias of the command which was used
-     * @param args Passed command arguments
+     * @param cmd    Command which was executed
+     * @param label  Alias of the command which was used
+     * @param args   Passed command arguments
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
 
-        if (cmd.getName().equalsIgnoreCase("reloadlanguage")) {
+        if (cmd
+                .getName()
+                .equalsIgnoreCase("reloadlanguage")) {
             if (sender.isOp() || sender.hasPermission("justhomes.loadlanguage")) {
                 Messages.reload();
                 sender.sendMessage(prefix + Messages.get("ReloadLaguageFile"));
@@ -48,32 +50,23 @@ public class Commands implements CommandExecutor, TabCompleter {
             sender.sendMessage(prefix + Messages.get("NotHumanException"));
             return true;
         }
-        if (cmd.getName().equalsIgnoreCase("listhome")) {
-            if (p.hasPermission("justhomes.listhome"))
-                plugin.listHome.getList(p);
+        switch (cmd.getName()) {
+            case "listhome" -> {
+                if (p.hasPermission("justhomes.listhome")) plugin.listHome.getList(p);
+            }
+            case "delhome" -> {
+                if (p.hasPermission("justhomes.delhome")) plugin.deleteHome.deleteHome(p, args);
+            }
+            case "sethome" -> {
+                if (p.hasPermission("justhomes.sethome")) plugin.setHome.setHome(p, args);
+            }
+            case "home" -> {
+                if (p.hasPermission("justhomes.home")) plugin.homeCommand.getHome(p, args);
+            }
+            case "renamehome" -> {
+                if (p.hasPermission("justhomes.renamehome")) plugin.renameHomeCommand.renameHome(p, args);
+            }
         }
-        if (cmd.getName().equalsIgnoreCase("delhome")) {
-            if (p.hasPermission("justhomes.delhome"))
-                plugin.deleteHome.deleteHome(p, args);
-
-        }
-
-        if (cmd.getName().equalsIgnoreCase("sethome")) {
-            if (p.hasPermission("justhomes.sethome"))
-                plugin.setHome.setHome(p, args);
-        }
-        if (cmd.getName().equalsIgnoreCase("home")) {
-            if (p.hasPermission("justhomes.home"))
-                plugin.homeCommand.getHome(p, args);
-
-        }
-        if (cmd.getName().equalsIgnoreCase("renamehome")) {
-            if (p.hasPermission("justhomes.renamehome"))
-                plugin.renameHomeCommand.renameHome(p, args);
-
-        }
-
-
         return true;
     }
 
@@ -81,17 +74,23 @@ public class Commands implements CommandExecutor, TabCompleter {
     /**
      *
      * @param sender Source of the command.  For players tab-completing a
-     *     command inside a command block, this will be the player, not
-     *     the command block.
-     * @param cmd Command which was executed
-     * @param arg2 Alias of the command which was used
-     * @param args The arguments passed to the command, including final
-     *     partial argument to be completed
+     *               command inside a command block, this will be the player, not
+     *               the command block.
+     * @param cmd    Command which was executed
+     * @param arg2   Alias of the command which was used
+     * @param args   The arguments passed to the command, including final
+     *               partial argument to be completed
      */
     @Override
     public ArrayList<String> onTabComplete(@NotNull CommandSender sender, Command cmd, @NotNull String arg2, String[] args) {
-        if (cmd.getName().equalsIgnoreCase("delhome") || cmd.getName().equalsIgnoreCase("home")
-                || (cmd.getName().equalsIgnoreCase("renamehome") && args.length == 1)) {
+        if (cmd
+                .getName()
+                .equalsIgnoreCase("delhome") || cmd
+                .getName()
+                .equalsIgnoreCase("home") || (cmd
+                .getName()
+                .equalsIgnoreCase("renamehome") && args.length == 1
+        )) {
 
             if (args.length == 1) {
 
@@ -100,7 +99,9 @@ public class Commands implements CommandExecutor, TabCompleter {
                     sender.sendMessage(prefix + Messages.get("NotPlayerException"));
                     return homes;
                 }
-                String uuid = p.getUniqueId().toString();
+                String uuid = p
+                        .getUniqueId()
+                        .toString();
                 if (plugin.playerData.getHomesAmount(uuid) == 0) {
                     return homes;
                 }
@@ -110,16 +111,17 @@ public class Commands implements CommandExecutor, TabCompleter {
                 int homesMaxAmount = PermissionChecker.checkHomesMaxAmount(p);
                 if (keys.size() < homesMaxAmount) homesMaxAmount = keys.size();
                 for (int i = 0; i < homesMaxAmount; i++) {
-                    if (keys.get(i).getHomeName().startsWith(args[0].toLowerCase())) {
-                        homes.add(keys.get(i).getHomeName());
+                    if (keys
+                            .get(i)
+                            .getHomeName()
+                            .startsWith(args[0].toLowerCase())) {
+                        homes.add(keys
+                                .get(i)
+                                .getHomeName());
                     }
 
                 }
-
-
                 return homes;
-
-
             }
         }
         return null;

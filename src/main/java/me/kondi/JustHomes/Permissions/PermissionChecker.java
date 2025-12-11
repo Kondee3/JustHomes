@@ -4,6 +4,10 @@ import me.kondi.JustHomes.JustHomes;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 public class PermissionChecker {
     private JustHomes plugin;
     private static int maxAmount;
@@ -28,7 +32,6 @@ public class PermissionChecker {
         this.teleportationCooldown = plugin.teleportationCooldown;
     }
 
-
     /**
      * @param p Player to be checked.
      * @return Max amount of homes
@@ -46,11 +49,7 @@ public class PermissionChecker {
      * @return Time to wait for teleportation.
      */
     public static int checkDelay(Player p) {
-        for (PermissionAttachmentInfo permissions : p.getEffectivePermissions())
-            if (permissions.getPermission().contains(teleportationDelayPermission))
-                return Integer.parseInt(permissions.getPermission().split("\\.")[2]);
-
-        return teleportationDelay;
+        return getPermissionValueAsInt(p, teleportationDelayPermission , teleportationDelay);
     }
 
     /**
@@ -58,11 +57,7 @@ public class PermissionChecker {
      * @return Time to wait for another teleportation.
      */
     public static int checkCooldown(Player p) {
-        for (PermissionAttachmentInfo permissions : p.getEffectivePermissions())
-            if (permissions.getPermission().contains(teleportationCooldownPermission))
-                return  Integer.parseInt(permissions.getPermission().split("\\.")[2]);
-
-        return teleportationCooldown;
+        return getPermissionValueAsInt(p, teleportationCooldownPermission , teleportationCooldown);
     }
 
     /**
@@ -70,10 +65,20 @@ public class PermissionChecker {
      * @return Teleportation sound name.
      */
     public static String checkTeleportationSound(Player p) {
-        for (PermissionAttachmentInfo permissions : p.getEffectivePermissions())
-            if (permissions.getPermission().contains(teleportationSoundPermission))
-                return permissions.getPermission().split("\\.")[2].toUpperCase();
-
-        return teleportationSound;
+        Optional<String> number = getPermissionValue(p, teleportationSoundPermission);
+        return number.orElseGet(() -> teleportationSound);
     }
+
+    private static int getPermissionValueAsInt(Player p, String permissionName, int defaultValue) {
+        Optional<String> number = getPermissionValue(p, permissionName);
+        return number.map(Integer::parseInt).orElseGet(() -> defaultValue);
+    }
+
+    private static  Optional<String> getPermissionValue(Player p, String permissionName) {
+        return p.getEffectivePermissions().stream()
+                .filter(permission -> permission.getPermission().contains(permissionName))
+                .map(perm -> perm.getPermission().split("\\.")[2])
+                .findAny();
+    }
+
 }

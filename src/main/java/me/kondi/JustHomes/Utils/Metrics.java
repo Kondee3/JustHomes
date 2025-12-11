@@ -65,7 +65,7 @@ public class Metrics {
         boolean logErrors = config.getBoolean("logFailedRequests", false);
         boolean logSentData = config.getBoolean("logSentData", false);
         boolean logResponseStatusText = config.getBoolean("logResponseStatusText", false);
-
+        boolean skipRelocateCheck = config.getBoolean("skipRelocateCheck", false);
         metricsBase = new MetricsBase(
                 "bukkit",
                 serverUUID,
@@ -79,7 +79,8 @@ public class Metrics {
                 (message) -> this.plugin.getLogger().log(Level.INFO, message),
                 logErrors,
                 logSentData,
-                logResponseStatusText
+                logResponseStatusText,
+                skipRelocateCheck
         );
     }
 

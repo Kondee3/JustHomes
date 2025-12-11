@@ -46,17 +46,23 @@ public class Database {
                 config.getString("DatabaseName"),
                 config.getString("Username"),
                 config.getString("Password"));
-        this.console = plugin.getServer().getConsoleSender();
+        this.console = plugin
+                .getServer()
+                .getConsoleSender();
 
         try {
-            if (databaseConfig.getDatabaseType().equalsIgnoreCase("MYSQL")) {
+            if (databaseConfig
+                    .getDatabaseType()
+                    .equalsIgnoreCase("MYSQL")) {
 
                 connectionSource = new JdbcConnectionSource(databaseConfig.getHost() +
                         "/" + databaseConfig.getDatabase(), databaseConfig.getUsername(), databaseConfig.getPassword(), new MysqlDatabaseType());
 
-            } else if (databaseConfig.getDatabaseType().equalsIgnoreCase("SQLITE")) {
+            } else if (databaseConfig
+                    .getDatabaseType()
+                    .equalsIgnoreCase("SQLITE")) {
 
-                connectionSource = new JdbcConnectionSource( "jdbc:sqlite:" + plugin.getDataFolder() + "/playerdata/homeData.db", new SqliteDatabaseType());
+                connectionSource = new JdbcConnectionSource("jdbc:sqlite:" + plugin.getDataFolder() + "/playerdata/homeData.db", new SqliteDatabaseType());
 
             }
 
@@ -102,7 +108,7 @@ public class Database {
      * @param uuid Player uuid.
      */
     public void saveCooldown(String uuid) throws SQLException {
-            playerDataAdditionalDao.createOrUpdate(new PlayerDataAdditional(uuid, TeleportPlayer.tpCooldownBetweenTeleportation.get(uuid)));
+        playerDataAdditionalDao.createOrUpdate(new PlayerDataAdditional(uuid, TeleportPlayer.tpCooldownBetweenTeleportation.get(uuid)));
     }
 
     /**
@@ -111,9 +117,8 @@ public class Database {
      * @param home Player's home object.
      */
     public void setHome(Home home) throws SQLException {
-            homesDao.createOrUpdate(home);
+        homesDao.createOrUpdate(home);
     }
-
 
 
     /**
@@ -122,23 +127,23 @@ public class Database {
      * @param home Player's home to be deleted.
      */
     public void deleteHome(Home home) throws SQLException {
-            homesDao.delete(home);
+        homesDao.delete(home);
     }
 
     /**
      * Query to create a Homes table.
      */
     public void createHomeTable() throws SQLException {
-            TableUtils.createTableIfNotExists(connectionSource, Home.class);
-            homesDao = DaoManager.createDao(connectionSource, Home.class);
+        TableUtils.createTableIfNotExists(connectionSource, Home.class);
+        homesDao = DaoManager.createDao(connectionSource, Home.class);
     }
 
     /**
      * Query to create a Player Data table.
      */
     public void createPlayerDataTable() throws SQLException {
-            TableUtils.createTableIfNotExists(connectionSource, PlayerDataAdditional.class);
-            playerDataAdditionalDao = DaoManager.createDao(connectionSource, PlayerDataAdditional.class);
+        TableUtils.createTableIfNotExists(connectionSource, PlayerDataAdditional.class);
+        playerDataAdditionalDao = DaoManager.createDao(connectionSource, PlayerDataAdditional.class);
     }
 
     /**
@@ -146,7 +151,7 @@ public class Database {
      */
 
     public void stopDatabaseConnection() throws Exception {
-            connectionSource.close();
+        connectionSource.close();
     }
 
     /**
@@ -156,8 +161,12 @@ public class Database {
      */
 
     public void loadHomesData(String uuid) throws SQLException {
-            List<Home> listOfHomes = homesDao.query(homesDao.queryBuilder().where().like("owner", uuid).prepare());
-            Cache.setCachedListOfHomes(uuid, listOfHomes);
+        List<Home> listOfHomes = homesDao.query(homesDao
+                .queryBuilder()
+                .where()
+                .like("owner", uuid)
+                .prepare());
+        Cache.setCachedListOfHomes(uuid, listOfHomes);
     }
 
     /**
@@ -167,14 +176,13 @@ public class Database {
      */
     public void loadPlayerData(String uuid) throws SQLException {
 
-            PlayerDataAdditional playerDataAdditional = playerDataAdditionalDao.queryForId(uuid);
-            if(playerDataAdditional != null){
-                long cooldown = playerDataAdditional.getCooldown();
-                if (cooldown > System.currentTimeMillis())
-                    TeleportPlayer.tpCooldownBetweenTeleportation.put(uuid, playerDataAdditional.getCooldown());
-            }
+        PlayerDataAdditional playerDataAdditional = playerDataAdditionalDao.queryForId(uuid);
+        if (playerDataAdditional != null) {
+            long cooldown = playerDataAdditional.getCooldown();
+            if (cooldown > System.currentTimeMillis())
+                TeleportPlayer.tpCooldownBetweenTeleportation.put(uuid, playerDataAdditional.getCooldown());
+        }
     }
-
 
 
 }

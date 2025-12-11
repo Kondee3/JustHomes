@@ -83,11 +83,7 @@ public class SetHomeCommand {
     private void saveLoc(Player p, String homeName) {
         String uuid = p.getUniqueId().toString();
         HomeNames.addHomeName(uuid, homeName);
-        playerData.addHome(homeFactory(UUID.randomUUID(),uuid, homeName, p.getLocation()));
-    }
-
-    private Home homeFactory(UUID id, String uuid, String homeName, Location loc){
-        return new Home(id, uuid, homeName, loc.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ(), loc.getPitch(), loc.getYaw());
+        playerData.addHome(new Home(UUID.randomUUID(),uuid, homeName, p.getLocation()));
     }
 
     private void editHomeLocation(Player p, Home home) {

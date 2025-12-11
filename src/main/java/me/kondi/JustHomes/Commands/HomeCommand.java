@@ -38,8 +38,9 @@ public class HomeCommand {
      * @param args Arguments including name of player's home.
      */
     public void getHome(Player p, String[] args) {
-
-        String uuid = p.getUniqueId().toString();
+        String uuid = p
+                .getUniqueId()
+                .toString();
         if (playerData.getHomesAmount(uuid) == 0) {
             p.sendMessage(prefix + Messages.get("UserHasNoHomes"));
             return;
@@ -50,16 +51,14 @@ public class HomeCommand {
             return;
         }
 
-
-        String homeName = args[0];
-        Home home = playerData.getHome(uuid, homeName);
-        List<Home> homeList = playerData.getListOfHomes(uuid);
-
+        Home home = playerData.getHome(uuid, args[0]);
         if (home == null) {
             p.sendMessage(prefix + Messages.get("UnknownHomeName"));
             return;
         }
-        if (homeList.indexOf(home) + 1 > PermissionChecker.checkHomesMaxAmount(p)) {
+        if (playerData
+                .getListOfHomes(uuid)
+                .indexOf(home) + 1 > PermissionChecker.checkHomesMaxAmount(p)) {
             p.sendMessage(prefix + Messages.get("UnavailableHome"));
             return;
         }
@@ -67,17 +66,19 @@ public class HomeCommand {
         Location loc = home.getLocation();
 
         if (plugin.simpleProtection) {
-            Material middle = loc.getBlock().getType();
-            Material below = p.getWorld().getBlockAt(loc.getBlockX(), loc.getBlockY() - 1, loc.getBlockZ()).getType();
+            Material middle = loc
+                    .getBlock()
+                    .getType();
+            Material below = p
+                    .getWorld()
+                    .getBlockAt(loc.getBlockX(), loc.getBlockY() - 1, loc.getBlockZ())
+                    .getType();
             if (damageBlocks.contains(below) || damageBlocks.contains(middle)) {
                 p.sendMessage(prefix + Messages.get("CorruptedHome"));
                 return;
             }
         }
-
         plugin.teleportPlayer.teleportPlayer(p, home, PermissionChecker.checkDelay(p));
-
-
     }
 
 

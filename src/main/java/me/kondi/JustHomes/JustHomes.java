@@ -89,7 +89,7 @@ public class JustHomes extends JavaPlugin {
         if (db != null) {
             String message = Messages.get("SavingAllPlayersData");
             if(message != null)
-                getServer().getConsoleSender().sendMessage(prefix + message);
+                getServer().getConsoleSender().sendMessage(String.format("[%s] "+ message, getDescription().getName()));
             else getServer().getConsoleSender().sendMessage(prefix + "Saving all players data!");
             Cache.saveAllHomes();
             db.saveTeleportationCooldowns();
