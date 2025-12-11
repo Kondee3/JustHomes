@@ -40,7 +40,7 @@ public class SetHomeCommand {
      * @param p Player whose home will be created.
      * @param args Arguments including name of player's home.
      */
-    public void setHome(Player p, String[] args) {
+    public void execute(Player p, String[] args) {
 
         String uuid = p.getUniqueId().toString();
 

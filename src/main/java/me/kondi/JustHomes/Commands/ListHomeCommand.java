@@ -33,7 +33,7 @@ public class ListHomeCommand {
      *
      * @param p Player whose homes will be listed in the chat (only for this player)
      */
-    public void getList(Player p) {
+    public void execute(Player p) {
         String uuid = p
                 .getUniqueId()
                 .toString();

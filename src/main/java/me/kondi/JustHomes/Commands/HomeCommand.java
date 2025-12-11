@@ -37,7 +37,7 @@ public class HomeCommand {
      * @param p    Player who want to be teleported to home location.
      * @param args Arguments including name of player's home.
      */
-    public void getHome(Player p, String[] args) {
+    public void execute(Player p, String[] args) {
         String uuid = p
                 .getUniqueId()
                 .toString();

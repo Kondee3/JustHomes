@@ -35,7 +35,7 @@ public class Events implements Listener {
         if (TeleportPlayer.tpDelayTask.containsKey(uuid)) {
             TeleportPlayer.tpDelayTask.get(uuid).cancel();
             TeleportPlayer.tpDelayTask.remove(uuid);
-            TeleportPlayer.tpDelay.remove(uuid);
+
 
         }
         if (playerData.getHomesAmount(uuid) > 0)
@@ -58,7 +58,6 @@ public class Events implements Listener {
             if (getFrom.getX() != getTo.getX() || getFrom.getZ() != getTo.getZ() || getFrom.getY() != getTo.getY()) {
                 TeleportPlayer.tpDelayTask.get(uuid).cancel();
                 TeleportPlayer.tpDelayTask.remove(uuid);
-                TeleportPlayer.tpDelay.remove(uuid);
                 e.getPlayer().sendMessage(plugin.prefix + Messages.get("TeleportationCancelled"));
             }
 

@@ -15,8 +15,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.HashMap;
 
 public class TeleportPlayer {
-    public static HashMap<String, Integer> tpDelay = new HashMap<>();
-    public static HashMap<String, BukkitRunnable> tpDelayTask = new HashMap<>();
+    public static HashMap<String, CountdownRunnable> tpDelayTask = new HashMap<>();
 
     public static HashMap<String, Long> tpCooldownBetweenTeleportation = new HashMap<>();
     private final JustHomes plugin;
@@ -25,7 +24,6 @@ public class TeleportPlayer {
     public TeleportPlayer(JustHomes plugin) {
         this.plugin = plugin;
         this.prefix = plugin.prefix;
-
     }
 
     /**
@@ -36,7 +34,7 @@ public class TeleportPlayer {
      */
     public void teleportPlayer(Player p, Home home, int delay) {
         String uuid = home.getOwner();
-        if(tpDelay.containsKey(uuid)){
+        if(tpDelayTask.containsKey(uuid)){
             p.sendMessage(prefix + PlaceholderAPI.setPlaceholders(p, Messages.get("PendingAnotherTeleportation")));
             return;
         }
@@ -46,35 +44,29 @@ public class TeleportPlayer {
             return;
         }
 
-
-        tpDelay.put(uuid, delay);
         HomeNames.addHomeName(uuid, home.getHomeName());
-        p.sendMessage(prefix + PlaceholderAPI.setPlaceholders(p, Messages.get("Teleporting")));
 
-
-        tpDelayTask.put(uuid, new BukkitRunnable() {
+        tpDelayTask.put(uuid, new CountdownRunnable(delay) {
             public void run() {
-                if (tpDelay.get(uuid) > 0) {
-                    tpDelay.put(uuid, tpDelay.get(uuid) - 1);
+                if (getCurrentCountdownValue() > 0) {
+                    decrementCountdownValue();
                 }
-                if (tpDelay.get(uuid) == 0) {
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Messages.get("ActionBarNameWhileTeleporting")));
+                if (getCurrentCountdownValue() == 0) {
+                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Messages.get("ActionBarNameWhileTeleporting")));
                     p.teleport(home.getLocation());
                     p.sendMessage(prefix + PlaceholderAPI.setPlaceholders(p, Messages.get("SuccessfulTeleportation")));
                     if (plugin.soundsEnabled)
                         p.playSound(p.getLocation(), Sound.valueOf(PermissionChecker.checkTeleportationSound(p)), 1f, 1f);
                     tpCooldownBetweenTeleportation.put(uuid, System.currentTimeMillis() + PermissionChecker.checkCooldown(p)* 1000L);
                     tpDelayTask.get(uuid).cancel();
-                    tpDelay.remove(uuid);
                     tpDelayTask.remove(uuid);
 
                 } else {
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(tpDelay.get(uuid).toString()));
+                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(getCurrentCountdownValue().toString()));
                 }
             }
-
-
         });
+        p.sendMessage(prefix + PlaceholderAPI.setPlaceholders(p, Messages.get("Teleporting")));
         tpDelayTask.get(uuid).runTaskTimer(plugin, 0, 20);
     }
 }

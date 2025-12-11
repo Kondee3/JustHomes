@@ -26,7 +26,7 @@ public class DeleteHomeCommand {
      * @param args Arguments including name of player's home.
      */
 
-    public void deleteHome(Player p, String[] args) {
+    public void execute(Player p, String[] args) {
         String uuid = p.getUniqueId().toString();
 
         if (args.length == 0) {

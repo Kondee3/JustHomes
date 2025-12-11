@@ -44,7 +44,7 @@ public class Placeholder extends PlaceholderExpansion {
             return HomeNames.getHomeName(p.getUniqueId().toString());
         }
         if (params.equals("teleportationtime")) {
-            return TeleportPlayer.tpDelay.get(p.getUniqueId().toString()).toString();
+            return TeleportPlayer.tpDelayTask.get(p.getUniqueId().toString()).getCurrentCountdownValue().toString();
         }
         if (params.equals("cooldown")) {
             long time = (TeleportPlayer.tpCooldownBetweenTeleportation.get(p.getUniqueId().toString()) - System.currentTimeMillis()) / 1000;

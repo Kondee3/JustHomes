@@ -3,6 +3,7 @@ package me.kondi.JustHomes.Data;
 import me.kondi.JustHomes.Home.Home;
 import me.kondi.JustHomes.JustHomes;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -140,14 +141,9 @@ public class Cache {
      * @param home    Player's home
      * @param newName Player's new home name.
      * Current home checked earlier.
-     * @see me.kondi.JustHomes.Commands.RenameHomeCommand#renameHome
+     * @see me.kondi.JustHomes.Commands.RenameHomeCommand#execute
      */
     public static void renameHomeInCache(Home home, String newName) {
         getHome(home).setHomeName(newName);
     }
-
-    public static void doesHomeExistInCache(String owner, String homeName){
-
-    }
-
 }

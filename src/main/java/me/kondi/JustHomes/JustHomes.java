@@ -11,10 +11,13 @@ import me.kondi.JustHomes.Utils.ConfigManager;
 import me.kondi.JustHomes.Utils.Messages;
 import me.kondi.JustHomes.Utils.Metrics;
 import me.kondi.JustHomes.Utils.Placeholder;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import static com.j256.ormlite.logger.Level.ERROR;
 
 public class JustHomes extends JavaPlugin {
 
@@ -69,7 +72,7 @@ public class JustHomes extends JavaPlugin {
             return;
         }
 
-
+        com.j256.ormlite.logger.Logger.setGlobalLogLevel(ERROR);
         loadConfig();
         loadClasses();
         loadCommands();

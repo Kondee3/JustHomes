@@ -30,7 +30,7 @@ public class RenameHomeCommand {
      * @param p    Player who want to change home name.
      * @param args Arguments including name of player's home and new name.
      */
-    public void renameHome(Player p, String[] args) {
+    public void execute(Player p, String[] args) {
 
         String uuid = p.getUniqueId().toString();
         if (playerData.getHomesAmount(uuid) == 0) {

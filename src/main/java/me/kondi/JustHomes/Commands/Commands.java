@@ -52,19 +52,19 @@ public class Commands implements CommandExecutor, TabCompleter {
         }
         switch (cmd.getName()) {
             case "listhome" -> {
-                if (p.hasPermission("justhomes.listhome")) plugin.listHome.getList(p);
+                if (p.hasPermission("justhomes.listhome")) plugin.listHome.execute(p);
             }
             case "delhome" -> {
-                if (p.hasPermission("justhomes.delhome")) plugin.deleteHome.deleteHome(p, args);
+                if (p.hasPermission("justhomes.delhome")) plugin.deleteHome.execute(p, args);
             }
             case "sethome" -> {
-                if (p.hasPermission("justhomes.sethome")) plugin.setHome.setHome(p, args);
+                if (p.hasPermission("justhomes.sethome")) plugin.setHome.execute(p, args);
             }
             case "home" -> {
-                if (p.hasPermission("justhomes.home")) plugin.homeCommand.getHome(p, args);
+                if (p.hasPermission("justhomes.home")) plugin.homeCommand.execute(p, args);
             }
             case "renamehome" -> {
-                if (p.hasPermission("justhomes.renamehome")) plugin.renameHomeCommand.renameHome(p, args);
+                if (p.hasPermission("justhomes.renamehome")) plugin.renameHomeCommand.execute(p, args);
             }
         }
         return true;
