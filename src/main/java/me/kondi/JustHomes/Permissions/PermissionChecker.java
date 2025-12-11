@@ -4,9 +4,7 @@ import me.kondi.JustHomes.JustHomes;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
-import java.util.Arrays;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class PermissionChecker {
     private JustHomes plugin;

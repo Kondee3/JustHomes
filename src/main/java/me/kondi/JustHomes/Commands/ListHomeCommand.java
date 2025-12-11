@@ -1,19 +1,17 @@
 package me.kondi.JustHomes.Commands;
 
 
-import me.kondi.JustHomes.PlayerData.PlayerData;
 import me.kondi.JustHomes.Home.Home;
 import me.kondi.JustHomes.JustHomes;
 import me.kondi.JustHomes.Permissions.PermissionChecker;
+import me.kondi.JustHomes.PlayerData.PlayerData;
 import me.kondi.JustHomes.Utils.Messages;
-import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ListHomeCommand {

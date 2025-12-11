@@ -2,12 +2,11 @@ package me.kondi.JustHomes.Commands;
 
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import me.kondi.JustHomes.PlayerData.PlayerData;
 import me.kondi.JustHomes.Home.Home;
 import me.kondi.JustHomes.Home.HomeNames;
 import me.kondi.JustHomes.JustHomes;
+import me.kondi.JustHomes.PlayerData.PlayerData;
 import me.kondi.JustHomes.Utils.Messages;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
