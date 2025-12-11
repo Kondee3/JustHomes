@@ -1,13 +1,7 @@
 
 
 ##
-![Logo](https://github.com/Kondee3/JustHomes/blob/master/logo.png)
-It's a repository of my project JustHomes for Spigot and Bukkit servers.
-
-
-
-
-
+![Logo](https://github.com/Kondee3/JustHomes/blob/master/banner-justhomes.png)
 
 ## Current Versions
 Currently only 1.14 and 1.19, 1.20, 1.21 versions are supported.
