@@ -55,5 +55,8 @@ Contribute to make the list longer :wink:
 | `justhomes.teleportationdelay`    | Value (Default: 5)                            |
 
 ## Build
-#### Build with maven 
-```mvn package -Ddir=<pluginsDir>```where `pluginsDir` is plugins directory of your test server.
+#### Build with maven
+```bash
+mvn package -DpluginsDir=<pluginsDirPath>
+```
+where `pluginsDirPath` is plugins path directory of your test server.
