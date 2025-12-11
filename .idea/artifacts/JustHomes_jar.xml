@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="JustHomes:jar">
-    <output-path>$USER_HOME$/Desktop/Serwery/latest/plugins</output-path>
-    <root id="archive" name="JustHomes.jar">
-      <element id="module-output" name="JustHomes" />
-    </root>
-  </artifact>
-</component>
