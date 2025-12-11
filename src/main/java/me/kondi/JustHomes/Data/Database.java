@@ -2,12 +2,9 @@ package me.kondi.JustHomes.Data;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
-import com.j256.ormlite.db.DatabaseType;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
-import com.j256.ormlite.jdbc.db.DatabaseTypeUtils;
 import com.j256.ormlite.jdbc.db.MysqlDatabaseType;
 import com.j256.ormlite.jdbc.db.SqliteDatabaseType;
-import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import me.kondi.JustHomes.Home.Home;
@@ -17,9 +14,7 @@ import me.kondi.JustHomes.Teleportation.TeleportPlayer;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.sql.SQLException;
 import java.util.List;
 
 public class Database {
